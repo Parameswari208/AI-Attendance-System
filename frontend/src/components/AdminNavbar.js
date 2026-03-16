@@ -1,4 +1,3 @@
-// src/components/AdminNavbar.js
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./AdminNavbar.css";
@@ -13,7 +12,13 @@ const AdminNavbar = () => {
 
   return (
     <nav className="admin-navbar">
-      <div className="navbar-brand">Admin Panel</div>
+      {/* Logo + Admin Panel text */}
+ <div className="navbar-brand">
+  <img src="/Admin_Logo.png" alt="Logo" className="admin-logo" />
+  <span>Admin Panel</span>
+</div>
+
+      {/* Navigation Links */}
       <ul className="navbar-links">
         <li>
           <Link to="/admin">Home</Link>

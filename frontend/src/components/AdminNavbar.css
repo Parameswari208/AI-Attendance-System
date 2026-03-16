@@ -1,10 +1,9 @@
-/* src/components/AdminNavbar.css */
-
+/* Navbar container */
 .admin-navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #b3d9ff; /* pale blue */
+  background-color: #1565c0; /* dark blue */
   padding: 10px 20px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   position: sticky;
@@ -12,12 +11,24 @@
   z-index: 1000;
 }
 
-.navbar-brand {
+/* Navbar brand (logo + text) */
+.admin-navbar .navbar-brand {
+  display: flex;           /* Align logo and text horizontally */
+  align-items: center;     /* Vertically center logo and text */
+  gap: 10px;               /* Space between logo and text */
   font-size: 1.5rem;
   font-weight: bold;
   color: #ffffff;
 }
 
+/* Logo image */
+.admin-navbar .admin-logo {
+  height: 40px;            /* Adjust as needed */
+  width: auto;
+  border-radius: 5px;      /* Optional: rounded corners */
+}
+
+/* Navbar links */
 .navbar-links {
   list-style: none;
   display: flex;
@@ -40,9 +51,10 @@
   background-color: #80c1ff;
 }
 
+/* Logout button */
 .logout-btn {
   background-color: #ffffff;
-  color: #b3d9ff;
+  color: #1565c0;
   font-weight: bold;
   padding: 5px 12px;
   border: none;

@@ -29,13 +29,19 @@ const AdminDashboard = () => {
 // ================= ACTIVE TODAY =================
 const fetchActiveToday = async () => {
   try {
-    const res = await axios.get(`${API_BASE}/employees`);
-    const employeesData = res.data.employees || [];
+    const res = await axios.get("http://localhost:5050/api/admin/employees");
 
-    // Count only currently logged-in users
-    const active = employeesData.filter(emp => emp.isLoggedIn);
+    if (res.data.success) {
+      const employeesData = res.data.employees || [];
 
-    setActiveCount(active.length);
+      // Check employees coming from API
+      console.log("Employees:", employeesData);
+
+      // Count employees where isLoggedIn is true
+      const active = employeesData.filter(emp => emp.isLoggedIn === true);
+
+      setActiveCount(active.length);
+    }
   } catch (error) {
     console.error("Active employee error:", error);
   }

@@ -50,7 +50,7 @@ const AdminLayout = ({ children }) => {
 
   // ================= MENU ITEMS =================
   const menuItems = [
-    { name: "Home", path: "/admin-login" }, // <-- Home first
+    //{ name: "Home", path: "/admin-login" }, // <-- Home first
     { name: "Dashboard", path: "/admin-home" },
     { name: "Add Employee", path: "/add-employee" },
     { name: "Employee Activity", path: "/employee-activity" },
@@ -78,12 +78,20 @@ const AdminLayout = ({ children }) => {
           flexWrap: "wrap",
         }}
       >
-        <h2
-          style={{ color: "#fff", margin: 0, cursor: "pointer" }}
-          onClick={() => navigate("/admin-home")}
-        >
-          Admin Panel
-        </h2>
+       <div 
+  className="admin-brand" 
+  style={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+  onClick={() => navigate("/admin-home")}
+>
+  <img 
+    src="/Admin_Logo.png" 
+    alt="Logo" 
+    style={{ height: "40px", width: "auto", marginRight: "10px" }} 
+  />
+  <span style={{ color: "#fff", fontSize: "1.5rem", fontWeight: "bold" }}>
+    Admin Panel
+  </span>
+</div>
 
         <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
           {menuItems.map((item) => (

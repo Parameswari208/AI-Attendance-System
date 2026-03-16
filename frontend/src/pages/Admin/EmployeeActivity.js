@@ -1,3 +1,4 @@
+// frontend/src/pages/Admin/EmployeeActivity.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import AdminLayout from "./AdminLayout";
@@ -29,7 +30,6 @@ const EmployeeActivity = () => {
   const toggleCard = (card) =>
     setExpandedCard(expandedCard === card ? "" : card);
 
-  // ================= FETCH ACTIVITY =================
   const fetchActivity = async () => {
     try {
       if (activityVisible) {
@@ -65,15 +65,12 @@ const EmployeeActivity = () => {
             workedMs = logoutTime - loginTime;
           } else {
             let last = loginTime;
-
             lastSession.pauseTime.forEach((p) => {
               const pauseStart = new Date(p.start).getTime();
               const pauseEnd = p.end ? new Date(p.end).getTime() : Date.now();
-
               workedMs += pauseStart - last;
               last = pauseEnd;
             });
-
             workedMs += logoutTime - last;
           }
 
@@ -114,14 +111,24 @@ const EmployeeActivity = () => {
 
   // ================= EXPORT ALL EMPLOYEES PDF =================
   const generateAllEmployeesPDF = () => {
+    if (activityList.length === 0) {
+      alert("No employee data to export!");
+      return;
+    }
+
     const doc = new jsPDF();
 
+    // Add Logo
+    const logo = new Image();
+    logo.src = "/Admin_Logo.png"; // your logo path
+    doc.addImage(logo, "PNG", 14, 10, 40, 20); // x, y, width, height
+
     doc.setFontSize(18);
-    doc.text("TNG Company - Employee Activity Report", 14, 20);
+    doc.text("TNG Company - Employee Activity Report", 60, 20);
 
     doc.setFontSize(11);
-    doc.text(`Generated Date: ${new Date().toLocaleString()}`, 14, 30);
-    doc.text(`Total Employees: ${activityList.length}`, 14, 38);
+    doc.text(`Generated Date: ${new Date().toLocaleString()}`, 14, 35);
+    doc.text(`Total Employees: ${activityList.length}`, 14, 42);
 
     const tableColumn = [
       "Date",
@@ -144,69 +151,69 @@ const EmployeeActivity = () => {
     ]);
 
     autoTable(doc, {
-      startY: 45,
+      startY: 50,
       head: [tableColumn],
       body: tableRows,
     });
 
     doc.save("All_Employees_Activity_Report.pdf");
   };
-const generateSingleEmployeePDF = (emp) => {
-  const doc = new jsPDF();
 
-  // Title
-  doc.setFontSize(18);
-  doc.text("TNG Company - Employee Activity Report", 14, 20);
+  const generateSingleEmployeePDF = (emp) => {
+    const doc = new jsPDF();
 
-  doc.setFontSize(11);
-  doc.text(`Generated Date: ${new Date().toLocaleString()}`, 14, 30);
+    // Add Logo
+    const logo = new Image();
+    logo.src = "/Admin_Logo.png"; // your logo path
+    doc.addImage(logo, "PNG", 14, 10, 40, 20); // x, y, width, height
 
-  // Table columns
-  const tableColumn = [
-    "Employee ID",
-    "Name",
-    "Date",
-    "Login",
-    "Pause",
-    "Logout",
-    "Worked Hours"
-  ];
+    doc.setFontSize(18);
+    doc.text("TNG Company - Employee Activity Report", 60, 20);
 
-  // Table data
-  const tableRows = [
-    [
-      emp.employeeId,
-      emp.name,
-      emp.date,
-      emp.loginTime,
-      emp.pauseTime,
-      emp.logoutTime,
-      emp.workedHours
-    ]
-  ];
+    doc.setFontSize(11);
+    doc.text(`Generated Date: ${new Date().toLocaleString()}`, 14, 35);
 
-  autoTable(doc, {
-    startY: 40,
-    head: [tableColumn],
-    body: tableRows,
+    const tableColumn = [
+      "Employee ID",
+      "Name",
+      "Date",
+      "Login",
+      "Pause",
+      "Logout",
+      "Worked Hours",
+    ];
 
-    headStyles: {
-      fillColor: [26, 115, 232], // Blue header
-      textColor: 255,
-      halign: "center"
-    },
+    const tableRows = [
+      [
+        emp.employeeId,
+        emp.name,
+        emp.date,
+        emp.loginTime,
+        emp.pauseTime,
+        emp.logoutTime,
+        emp.workedHours,
+      ],
+    ];
 
-    bodyStyles: {
-      halign: "center"
-    },
+    autoTable(doc, {
+      startY: 50,
+      head: [tableColumn],
+      body: tableRows,
+      headStyles: {
+        fillColor: [26, 115, 232],
+        textColor: 255,
+        halign: "center",
+      },
+      bodyStyles: {
+        halign: "center",
+      },
+      alternateRowStyles: {
+        fillColor: [240, 245, 255],
+      },
+    });
 
-    alternateRowStyles: {
-      fillColor: [240, 245, 255] // light blue row
-    }
-  });
-
-  doc.save(`${emp.name}_Activity_Report.pdf`);
-};
+    doc.save(`${emp.name}_Activity_Report.pdf`);
+  };
 
   const cardStyle = {
     flex: "1",
